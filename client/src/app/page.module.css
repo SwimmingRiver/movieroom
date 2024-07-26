@@ -1,0 +1,33 @@
+.main {
+  border: white 1px solid;
+  background-color: #101322;
+  flex: 1;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.header_info {
+  display: flex;
+  padding: 10px;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #101322;
+  color: white;
+  height: 56px;
+  border: wheat solid 1px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.footer_info {
+  border: wheat solid 1px;
+  display: flex;
+  padding: 10px;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #101322;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  max-width: 700px;
+  box-sizing: border-box;
+}
