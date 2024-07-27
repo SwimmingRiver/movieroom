@@ -31,3 +31,21 @@
   max-width: 700px;
   box-sizing: border-box;
 }
+.movie_card {
+  height: 255px;
+  width: 140px;
+  border: white solid 1px;
+  border-radius: 6px;
+  /* display: inline-block; */
+  box-sizing: border-box;
+}
+.movie_card_image {
+  width: 100%;
+}
+.movie_card_info {
+  height: 55px;
+  width: 100%;
+  margin-top: 6px;
+  text-align: center;
+  padding: 0 8px;
+}
