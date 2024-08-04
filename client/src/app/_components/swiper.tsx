@@ -17,8 +17,8 @@ const MovieSwiper: React.FC = () => {
       <Swiper
         spaceBetween={50}
         slidesPerView={5}
-        onSlideChange={() => console.log("slide change")}
-        onSwiper={(swiper) => console.log(swiper)}
+        // onSlideChange={() => console.log("slide change")}
+        // onSwiper={(swiper) => console.log(swiper)}
       >
         {list.map((i) => (
           <SwiperSlide>
