@@ -17,12 +17,13 @@ const MovieSwiper: React.FC = () => {
       <Swiper
         spaceBetween={50}
         slidesPerView={5}
-        onSlideChange={() => console.log("slide change")}
-        onSwiper={(swiper) => console.log(swiper)}
+        // onSlideChange={() => console.log("slide change")}
+        // onSwiper={(swiper) => console.log(swiper)}
       >
         {list.map((i) => (
-          <SwiperSlide>
+          <SwiperSlide key={i}>
             <MovieCard
+              key={i}
               title={i}
               img="https://file.kinolights.com/m/content_poster/202405/21/12b1ef8d-a102-4826-8986-a85991c058b6.webp"
             />

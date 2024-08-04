@@ -21,14 +21,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools />
-        <body className={inter.className}>
+      <body className={inter.className}>
+        <QueryClientProvider client={queryClient}>
+          <ReactQueryDevtools />
           <Header />
           {children}
           <Footer />
-        </body>
-      </QueryClientProvider>
+        </QueryClientProvider>
+      </body>
     </html>
   );
 }
