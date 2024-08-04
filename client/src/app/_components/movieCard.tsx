@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "@/app/page.module.css";
+
 const MovieCard = ({ title, img }: { title: string; img: string }) => {
   return (
     <div className={styles.movie_card}>

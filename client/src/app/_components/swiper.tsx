@@ -1,16 +1,22 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import MovieCard from "./movieCard";
+import style from "@/app/page.module.css";
 import "swiper/css";
+import { getMovieRanking } from "../api/getMovieRanking";
 
 const MovieSwiper: React.FC = () => {
   const list = ["1", "2", "3", "4", "5", "6", "7"];
+
   return (
-    <div>
+    <div className={style.swiper_wrapper}>
+      <div className={style.swiper_title} onClick={getMovieRanking}>
+        신작
+      </div>
       <Swiper
         spaceBetween={50}
-        slidesPerView={3}
+        slidesPerView={5}
         onSlideChange={() => console.log("slide change")}
         onSwiper={(swiper) => console.log(swiper)}
       >
