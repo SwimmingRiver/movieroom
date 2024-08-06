@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import style from "@/app/page.module.css";
 import RankingItem from "./rankingItem";
 import { getMovieRanking } from "@/app/api/getMovieRanking";

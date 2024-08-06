@@ -46,6 +46,20 @@ const Page = () => {
             리뷰
           </span>
         </div>
+        <div
+          className={style.movie_info_button}
+          onClick={() => {
+            setTab("차트");
+          }}
+        >
+          <span
+            className={
+              tab === "차트" ? style.selected_tab : style.unselected_tab
+            }
+          >
+            차트
+          </span>
+        </div>
       </div>
     </div>
   );

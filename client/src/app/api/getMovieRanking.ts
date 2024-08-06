@@ -1,6 +1,7 @@
 import axios from "axios";
+import { IRankingItem } from "../types/movieRank";
 
-export const getMovieRanking = async (): Promise<any> => {
+export const getMovieRanking = async (): Promise<IRankingItem[]> => {
   const today = new Date();
   const yesterday = new Date(today);
   yesterday.setDate(today.getDate() - 1);
@@ -14,6 +15,6 @@ export const getMovieRanking = async (): Promise<any> => {
     const data = res.data.boxOfficeResult.dailyBoxOfficeList;
     return data;
   } catch (err) {
-    return err;
+    throw new Error(`${err}`);
   }
 };
