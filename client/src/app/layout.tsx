@@ -26,7 +26,7 @@ export default function RootLayout({
           <ReactQueryDevtools />
           <Header />
           {children}
-          <Footer />{" "}
+          <Footer />
         </QueryClientProvider>
       </body>
     </html>
