@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Room</title>
+</head>
+<body>
+<button id="dailyBoxOfficeButton">Get Daily Box Office</button>
+<button id="weeklyBoxOfficeButton">Get Weekly Box Office</button>
+<div id="result"></div>
+
+<script>
+    document.getElementById('dailyBoxOfficeButton').addEventListener('click', function() {
+        fetch('/api/dailyBoxOffice?targetDt=20120101')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.text();
+            })
+            .then(data => {
+                document.getElementById('result').innerText = data;
+            })
+            .catch(error => console.error('Error:', error));
+    });
+
+    document.getElementById('weeklyBoxOfficeButton').addEventListener('click', function() {
+        fetch('/api/weeklyBoxOffice?targetDt=20120101')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.text();
+            })
+            .then(data => {
+                document.getElementById('result').innerText = data;
+            })
+            .catch(error => console.error('Error:', error));
+    });
+</script>
+</body>
+</html>
