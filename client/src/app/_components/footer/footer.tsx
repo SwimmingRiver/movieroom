@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <div className={styles.footer_info}>
       <Link href={"/"}>home</Link>
-      <div>discover</div>
+      <Link href={"/search"}>discover</Link>
       <div>my page</div>
     </div>
   );

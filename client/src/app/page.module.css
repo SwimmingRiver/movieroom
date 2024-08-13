@@ -155,3 +155,39 @@
   font-size: 16px;
   line-height: 23px;
 }
+.search_wrapper {
+  width: 100%;
+}
+.search_box {
+  display: flex;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  width: 100%;
+}
+.search_form {
+  border-radius: 6px;
+  background: #25304a;
+  border: 1px solid transparent;
+  z-index: 30;
+  width: 100%;
+  display: flex;
+  height: 40px;
+  flex-direction: row;
+  align-items: center;
+  grid-gap: 10px;
+  gap: 10px;
+  flex: 1 0 0;
+  padding: 0 10px;
+}
+.search_input {
+  flex: 1;
+  height: 100%;
+  background: transparent;
+  font-size: 20px;
+  line-height: 40px;
+  color: #d4d9e1;
+  border: none;
+  outline: none;
+}
