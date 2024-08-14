@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Room</title>
+</head>
+<body>
+<label for="dateInput">Enter Date (YYYYMMDD): </label>
+<input type="text" id="dateInput" placeholder="e.g., 20120101">
+<br>
+<label for="movieNameInput">Enter Movie Name: </label>
+<input type="text" id="movieNameInput" placeholder="e.g., Titanic">
+<br><br>
+<button id="dailyBoxOfficeButton">Get Daily Box Office</button>
+<button id="weeklyBoxOfficeButton">Get Weekly Box Office</button>
+<button id="searchMovieButton">Search Movie</button>
+<div id="result"></div>
+
+<script>
+    document.getElementById('dailyBoxOfficeButton').addEventListener('click', function() {
+        const targetDt = document.getElementById('dateInput').value;
+        if (!targetDt) {
+            alert('Please enter a valid date in the format YYYYMMDD.');
+            return;
+        }
+
+        fetch('/api/dailyBoxOffice?targetDt=' + targetDt)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.text();
+            })
+            .then(data => {
+                document.getElementById('result').innerText = data;
+            })
+            .catch(error => console.error('Error:', error));
+    });
+
+    document.getElementById('weeklyBoxOfficeButton').addEventListener('click', function() {
+        const targetDt = document.getElementById('dateInput').value;
+        if (!targetDt) {
+            alert('Please enter a valid date in the format YYYYMMDD.');
+            return;
+        }
+
+        fetch('/api/weeklyBoxOffice?targetDt=' + targetDt)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.text();
+            })
+            .then(data => {
+                document.getElementById('result').innerText = data;
+            })
+            .catch(error => console.error('Error:', error));
+    });
+    document.getElementById('searchMovieButton').addEventListener('click', function() {
+        const movieName = document.getElementById('movieNameInput').value;
+        if (!movieName) {
+            alert('Please enter a valid movie name.');
+            return;
+        }
+
+        fetch('/api/searchMovieList?movieNm=' + encodeURIComponent(movieName))
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.text();
+            })
+            .then(data => {
+                document.getElementById('result').innerText = data;
+            })
+            .catch(error => console.error('Error:', error));
+    });
+</script>
+</body>
+</html>
