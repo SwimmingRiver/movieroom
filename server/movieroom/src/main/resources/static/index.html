@@ -10,10 +10,14 @@
 <br>
 <label for="movieNameInput">Enter Movie Name: </label>
 <input type="text" id="movieNameInput" placeholder="e.g., Titanic">
+<br>
+<label for="movieNameInput1">Enter Movie(kmdb) Name: </label>
+<input type="text" id="movieNameInput1" placeholder="kmdb search">
 <br><br>
 <button id="dailyBoxOfficeButton">Get Daily Box Office</button>
 <button id="weeklyBoxOfficeButton">Get Weekly Box Office</button>
 <button id="searchMovieButton">Search Movie</button>
+<button id="searchMovieButton1">Search Movie(kmdb)</button>
 <div id="result"></div>
 
 <script>
@@ -64,6 +68,25 @@
         }
 
         fetch('/api/searchMovieList?movieNm=' + encodeURIComponent(movieName))
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.text();
+            })
+            .then(data => {
+                document.getElementById('result').innerText = data;
+            })
+            .catch(error => console.error('Error:', error));
+    });
+    document.getElementById('searchMovieButton1').addEventListener('click', function() {
+        const movieName = document.getElementById('movieNameInput1').value;
+        if (!movieName) {
+            alert('Please enter a valid movie name.');
+            return;
+        }
+
+        fetch('/api/searchKmdbMovieList?movieNm=' + encodeURIComponent(movieName))
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok ' + response.statusText);

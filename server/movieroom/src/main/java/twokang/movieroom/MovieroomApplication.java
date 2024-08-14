@@ -33,6 +33,9 @@ class ApiController {
 	@Value("${kobis.api.key}")
 	private String apiKey;
 
+	@Value("${kmdb.api.key}")
+	private String kmdbApiKey;
+
 	@Value("${kobis.api.daily.url}")
 	private String dailyBoxOfficeUrl;
 
@@ -41,6 +44,9 @@ class ApiController {
 
 	@Value("${kobis.api.movielist.url}")
 	private String searchMovieListUrl;
+
+	@Value("${kmdb.api.url}")
+	private String searchKmdbMovieList;
 
 	@GetMapping("/dailyBoxOffice")
 	public ResponseEntity<String> getDailyBoxOffice(@RequestParam String targetDt) {
@@ -90,6 +96,22 @@ class ApiController {
 
 		String responseBody = get(apiURL, requestHeaders);
 		String filteredResponse = filterSearchMovieData(responseBody);
+		System.out.println(filteredResponse);
+		return ResponseEntity.ok(filteredResponse);
+	}
+
+	@GetMapping("/searchKmdbMovieList")
+	public ResponseEntity<String> searchKmdbMovieList(
+			@RequestParam String movieNm) throws UnsupportedEncodingException {
+		String encodedMovieNm = URLEncoder.encode(movieNm, "UTF-8");
+		String apiURL = searchKmdbMovieList + "&detail=Y&title="
+				+ encodedMovieNm +"&ServiceKey=" + kmdbApiKey;
+		System.out.println(apiURL);
+		Map<String, String> requestHeaders = new HashMap<>();
+		requestHeaders.put("Content-Type", "application/json");
+
+		String responseBody = get(apiURL, requestHeaders);
+		String filteredResponse = filterKmdbMovieDetails(responseBody);
 		System.out.println(filteredResponse);
 		return ResponseEntity.ok(filteredResponse);
 	}
@@ -165,7 +187,6 @@ class ApiController {
 	}
 
 	private String filterSearchMovieData(String jsonResponse) {
-		// 영화 검색 결과에 맞는 JSON 파싱 및 처리
 		JSONObject jsonObject = new JSONObject(jsonResponse);
 		JSONArray movieListResult = jsonObject.getJSONObject("movieListResult").getJSONArray("movieList");
 
@@ -179,6 +200,48 @@ class ApiController {
 
 			filteredData.append("Movie Name: ").append(movieNm)
 					.append(", Release Date: ").append(openDt).append("\n");
+		}
+
+		return filteredData.toString();
+	}
+	private String filterKmdbMovieDetails(String jsonResponse) {
+		JSONObject jsonObject = new JSONObject(jsonResponse);
+
+		int totalCount = jsonObject.getInt("TotalCount");
+
+		JSONArray dataArray = jsonObject.getJSONArray("Data");
+		JSONObject firstDataObject = dataArray.getJSONObject(0);
+
+		JSONArray resultArray = firstDataObject.getJSONArray("Result");
+
+		StringBuilder filteredData = new StringBuilder();
+		filteredData.append("Total Count: ").append(totalCount).append("\n");
+
+		for (int i = 0; i < resultArray.length(); i++) {
+			JSONObject movie = resultArray.getJSONObject(i);
+			String title = movie.getString("title");
+			String prodYear = movie.getString("prodYear");
+
+			JSONArray plots = movie.getJSONObject("plots").getJSONArray("plot");
+			String plotText = "";
+			for (int j = 0; j < plots.length(); j++) {
+				JSONObject plot = plots.getJSONObject(j);
+				if ("한국어".equals(plot.getString("plotLang"))) {
+					plotText = plot.getString("plotText");
+					break;
+				}
+			}
+
+			String runtime = movie.getString("runtime");
+
+			String posterUrl = movie.optString("posterUrl", "N/A");
+
+			filteredData.append("Title: ").append(title).append("\n")
+					.append("Production Year: ").append(prodYear).append("\n")
+					.append("Plot: ").append(plotText).append("\n")
+					.append("Runtime: ").append(runtime).append("\n")
+					.append("Poster URL: ").append(posterUrl).append("\n")
+					.append("-------------------------------\n");
 		}
 
 		return filteredData.toString();
