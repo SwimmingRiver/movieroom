@@ -34,8 +34,7 @@ const page = () => {
           ) : null}
         </form>
       </div>
-
-      <SearchResult searchData={searchData} />
+      {searchData ? <SearchResult searchData={searchData} /> : null}
     </div>
   );
 };

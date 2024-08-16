@@ -191,3 +191,32 @@
   border: none;
   outline: none;
 }
+.search_result_card {
+  display: flex;
+  grid-gap: 12px;
+  gap: 12px;
+  overflow: hidden;
+  min-width: 0;
+  border: solid 1px white;
+}
+.search_result_poster {
+  flex-shrink: 0;
+  width: auto;
+  height: 98px;
+  overflow: hidden;
+  border-radius: 4px;
+  position: relative;
+}
+.search_image {
+  width: 100%;
+  height: 100%;
+}
+.search_result_content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1 0 0;
+  min-width: 0;
+  grid-gap: 4px;
+  gap: 4px;
+}
