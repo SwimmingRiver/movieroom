@@ -22,4 +22,5 @@ export interface IRankingItemProps {
   movieNm: string;
   rank: string;
   rankInten: string;
+  audiAcc: string;
 }

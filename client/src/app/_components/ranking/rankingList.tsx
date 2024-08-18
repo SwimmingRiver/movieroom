@@ -25,6 +25,7 @@ const RankingList = () => {
               rank={i.rank}
               rankInten={i.rankInten}
               movieNm={i.movieNm}
+              audiAcc={i.audiAcc}
             />
           </Link>
         ))}

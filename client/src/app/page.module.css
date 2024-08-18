@@ -68,6 +68,7 @@
   width: 100%;
   height: 168px;
 }
+
 .ranking_item {
   text-decoration: none;
   cursor: pointer;
@@ -89,6 +90,13 @@
 .ranking_img {
   height: 100%;
   width: 100%;
+}
+.ranking_content {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding-right: 8px;
+  align-items: center;
 }
 .movie_info_wrapper {
   height: 430px;
