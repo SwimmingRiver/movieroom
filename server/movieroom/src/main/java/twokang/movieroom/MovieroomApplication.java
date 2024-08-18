@@ -3,6 +3,7 @@ package twokang.movieroom;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -27,6 +30,8 @@ public class MovieroomApplication {
 		SpringApplication.run(MovieroomApplication.class, args);
 	}
 }
+
+
 @RestController
 @RequestMapping("/api")
 class ApiController {
@@ -49,7 +54,7 @@ class ApiController {
 	private String searchKmdbMovieList;
 
 	@GetMapping("/dailyBoxOffice")
-	public ResponseEntity<String> getDailyBoxOffice(@RequestParam String targetDt) {
+	public ResponseEntity<String> getDailyBoxOffice(@RequestParam("targetDt") String targetDt) {
 		String apiURL = dailyBoxOfficeUrl + "?key=" + apiKey + "&targetDt=" + targetDt;
 		Map<String, String> requestHeaders = new HashMap<>();
 		requestHeaders.put("Content-Type", "application/json");
@@ -61,7 +66,7 @@ class ApiController {
 	}
 
 	@GetMapping("/weeklyBoxOffice")
-	public ResponseEntity<String> getWeeklyBoxOffice(@RequestParam String targetDt) {
+	public ResponseEntity<String> getWeeklyBoxOffice(@RequestParam("targetDt") String targetDt) {
 		String apiURL = weeklyBoxOfficeUrl + "?key=" + apiKey + "&targetDt=" + targetDt + "&weekGb=0";
 		Map<String, String> requestHeaders = new HashMap<>();
 		requestHeaders.put("Content-Type", "application/json");
@@ -102,10 +107,26 @@ class ApiController {
 
 	@GetMapping("/searchKmdbMovieList")
 	public ResponseEntity<String> searchKmdbMovieList(
-			@RequestParam String movieNm) throws UnsupportedEncodingException {
+			@RequestParam("movieNm") String movieNm) throws UnsupportedEncodingException {
 		String encodedMovieNm = URLEncoder.encode(movieNm, "UTF-8");
 		String apiURL = searchKmdbMovieList + "&detail=Y&title="
 				+ encodedMovieNm +"&ServiceKey=" + kmdbApiKey;
+		System.out.println(apiURL);
+		Map<String, String> requestHeaders = new HashMap<>();
+		requestHeaders.put("Content-Type", "application/json");
+
+		String responseBody = get(apiURL, requestHeaders);
+		String filteredResponse = filterKmdbMovieDetails(responseBody);
+		System.out.println(filteredResponse);
+		return ResponseEntity.ok(filteredResponse);
+	}
+	@GetMapping("/searchDetail")
+	public ResponseEntity<String> searchDetailKmdbMovieList(
+			@RequestParam("movieSeq") String movieSeq) throws UnsupportedEncodingException {
+		System.out.println(movieSeq);
+		String encodedMovieSeq = URLEncoder.encode(movieSeq, "UTF-8");
+		String apiURL = searchKmdbMovieList + "&detail=Y&movieSeq="
+				+ encodedMovieSeq +"&ServiceKey=" + kmdbApiKey;
 		System.out.println(apiURL);
 		Map<String, String> requestHeaders = new HashMap<>();
 		requestHeaders.put("Content-Type", "application/json");
@@ -219,8 +240,13 @@ class ApiController {
 
 		for (int i = 0; i < resultArray.length(); i++) {
 			JSONObject movie = resultArray.getJSONObject(i);
+
 			String title = movie.getString("title");
 			String prodYear = movie.getString("prodYear");
+			String movieSeq = movie.getString("movieSeq");
+			String runtime = movie.getString("runtime");
+			String keywords = movie.getString("keywords");
+			String posters = movie.optString("posters", "N/A");
 
 			JSONArray plots = movie.getJSONObject("plots").getJSONArray("plot");
 			String plotText = "";
@@ -232,15 +258,13 @@ class ApiController {
 				}
 			}
 
-			String runtime = movie.getString("runtime");
-
-			String posterUrl = movie.optString("posterUrl", "N/A");
-
 			filteredData.append("Title: ").append(title).append("\n")
+					.append("MovieSeq: ").append(movieSeq).append("\n")
 					.append("Production Year: ").append(prodYear).append("\n")
-					.append("Plot: ").append(plotText).append("\n")
 					.append("Runtime: ").append(runtime).append("\n")
-					.append("Poster URL: ").append(posterUrl).append("\n")
+					.append("Keywords: ").append(keywords).append("\n")
+					.append("Poster: ").append(posters).append("\n")
+					.append("Plot: ").append(plotText).append("\n")
 					.append("-------------------------------\n");
 		}
 
