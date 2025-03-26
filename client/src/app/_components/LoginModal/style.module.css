@@ -1,0 +1,8 @@
+.Modal {
+  z-index: 9999;
+}
+.Form__Container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}

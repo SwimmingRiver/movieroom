@@ -14,12 +14,7 @@ const MovieSwiper: React.FC = () => {
       <div className={style.swiper_title} onClick={getMovieRanking}>
         신작
       </div>
-      <Swiper
-        spaceBetween={50}
-        slidesPerView={5}
-        // onSlideChange={() => console.log("slide change")}
-        // onSwiper={(swiper) => console.log(swiper)}
-      >
+      <Swiper spaceBetween={50} slidesPerView={5}>
         {list.map((i) => (
           <SwiperSlide key={i}>
             <MovieCard

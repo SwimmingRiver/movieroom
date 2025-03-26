@@ -28,7 +28,7 @@
   width: 100%;
   max-width: 700px;
   box-sizing: border-box;
-  z-index: 9999;
+  z-index: 0;
 }
 .swiper_wrapper {
   padding: 10px;
@@ -101,12 +101,11 @@
 .movie_info_wrapper {
   height: 430px;
   width: 100%;
-  border: solid 1px white;
 }
 .movie_background {
   height: 100%;
   width: 100%;
-  z-index: 1;
+  z-index: 0;
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -116,12 +115,11 @@
   padding: 0 16px 16px;
   box-sizing: border-box;
   bottom: 0;
-  z-index: 100;
-  border: solid 1px white;
+  z-index: 0;
+
   display: flex;
 }
 .movie_info_title {
-  border: solid 1px white;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -227,4 +225,7 @@
   min-width: 0;
   grid-gap: 4px;
   gap: 4px;
+}
+.login_modal {
+  z-index: 1000;
 }

@@ -1,18 +1,46 @@
 "use client";
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useCallback, useEffect, useState } from "react";
 import style from "@/app/page.module.css";
 import SearchResult from "./components/searchResult";
+import { useQuery } from "@tanstack/react-query";
+import { getMoviveSearch } from "../api/getMovieSearch";
+import { ISearchResultProps } from "../types/movieSearch";
 const page = () => {
   const [inputData, setInputData] = useState("");
   const [searchData, setSearchData] = useState("");
   const handleInputData = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputData(e.target.value);
   };
-  const handelSubmit = (e: FormEvent<HTMLFormElement>) => {
+
+  const {
+    data: movieSearchList,
+    refetch,
+    isRefetching,
+    isSuccess,
+  } = useQuery({
+    queryKey: ["movieSearch", searchData],
+    queryFn: () => {
+      getMoviveSearch({ movieNm: searchData });
+    },
+
+    enabled: false,
+  });
+  const handelSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSearchData(inputData);
-    setInputData("");
+
+    console.log({ movieSearchList });
+    await refetch();
+    if (isSuccess) {
+      console.log({ movieSearchList });
+      setInputData("");
+      setSearchData("");
+    }
+    if (isRefetching) {
+      console.log("refetching!!");
+    }
   };
+
   return (
     <div className={style.search_wrapper}>
       <div className={style.search_box}>
@@ -34,7 +62,12 @@ const page = () => {
           ) : null}
         </form>
       </div>
-      {searchData ? <SearchResult searchData={searchData} /> : null}
+      {/* {movieSearchList
+        ? movieSearchList.map((item: ISearchResultProps) => (
+            <SearchResult searchData={item.Title} />
+          ))
+        : null} */}
+      {movieSearchList ? <div>{movieSearchList}</div> : null}
     </div>
   );
 };
