@@ -13,7 +13,7 @@ export const getMovieRanking = async (): Promise<IRankingItem[]> => {
     const res = await axiosInstance.get(
       `/api/dailyBoxOffice?targetDt=${year}${month}${day}`
     );
-    console.log(res);
+
     const data = res.data.boxOfficeResult.dailyBoxOfficeList;
     return data;
   } catch (err) {
