@@ -9,15 +9,7 @@ export const getMovieRanking = async (): Promise<IRankingItem[]> => {
   const year = yesterday.getFullYear();
   const month = ("0" + (yesterday.getMonth() + 1)).slice(-2);
   const day = ("0" + yesterday.getDate()).slice(-2);
-  try {
-    const res = await axiosInstance.get(
-      `/api/dailyBoxOffice?targetDt=${year}${month}${day}`
-    );
-    console.log(res);
-    const data = res.data.boxOfficeResult.dailyBoxOfficeList;
-    return data;
-  } catch (err) {
-    console.log(err);
+  
     try {
       const res = await axios.get(
         `http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=${process.env.NEXT_PUBLIC_KOBIS_KEY}&targetDt=${year}${month}${day}`
@@ -27,5 +19,5 @@ export const getMovieRanking = async (): Promise<IRankingItem[]> => {
     } catch (err) {
       throw new Error(`${err}`);
     }
-  }
+  
 };

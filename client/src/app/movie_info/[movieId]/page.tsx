@@ -2,15 +2,46 @@
 import React, { useState } from "react";
 import style from "@/app/page.module.css";
 import Chart from "@/app/_components/chart";
+import { useParams } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import getMovieInfo from "@/app/api/getMovieInfo";
 const Page = () => {
+  const { movieId } = useParams();
+
   const [tab, setTab] = useState("줄거리");
+  const { data } = useQuery({
+    queryKey: ["movieInfo", movieId],
+    queryFn: () => getMovieInfo(movieId as string),
+  });
+  interface PeopleInfo {
+    peopleNm: string;
+    peopleNmEn: string;
+  }
+
   return (
     <div className={style.movie_info_wrapper}>
       <div className={style.movie_info_content}>
         <div className={style.movie_info_title}>
-          <div>title</div>
-          <div>rate</div>
-          <div>기타 정보</div>
+          <div>
+            {data?.movieInfoResult.movieInfo.movieNm}
+            ({data?.movieInfoResult.movieInfo.prdtYear})
+          </div>
+          <div>
+            <span>개봉일</span>
+            {data?.movieInfoResult.movieInfo.openDt}
+          </div>
+          <div>
+            <span>연출</span>
+            {data?.movieInfoResult.movieInfo.directors.map((director:PeopleInfo) => (
+              <div key={director.peopleNm}>{director.peopleNm}</div>
+            ))}
+          </div>
+          <div>
+            <span>출연</span>
+            {data?.movieInfoResult.movieInfo.actors.map((actor:PeopleInfo) => (
+              <div key={actor.peopleNm}>{actor.peopleNm}</div>
+            ))}
+          </div>
         </div>
         <img
           src="https://file.kinolights.com/m/content_poster/202405/21/12b1ef8d-a102-4826-8986-a85991c058b6.webp"
