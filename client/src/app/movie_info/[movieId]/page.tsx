@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import style from "@/app/page.module.css";
+import Chart from "@/app/_components/chart";
 const Page = () => {
   const [tab, setTab] = useState("줄거리");
   return (
@@ -59,7 +60,11 @@ const Page = () => {
           >
             차트
           </span>
+          
         </div>
+      </div>
+      <div className={style.movie_info_chart_wrapper}>
+        {tab === "차트" && <Chart />}
       </div>
     </div>
   );
