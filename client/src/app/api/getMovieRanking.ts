@@ -1,6 +1,6 @@
 import axios from "axios";
 import { IRankingItem } from "../types/movieRank";
-import { axiosInstance } from "./axiosInstance";
+
 
 export const getMovieRanking = async (): Promise<IRankingItem[]> => {
   const today = new Date();
